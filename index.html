@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Mapa</title>
+    <!-- Bootstrap CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
+    <!-- Font Awesome CSS -->
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <!-- myStyles css file -->
+    <link rel="stylesheet" href="css/myStyles.css">
+    <!-- !Aquí van los archivos linkeados para meter el maps al proyecto -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="./style.css" />
+
+
+
+</head>
+<body>
+<div class="d-flex" id="wrapper">
+    <!-- Sidebar-->
+    <div class="border-end bg-white" id="sidebar-wrapper">
+        <div class="sidebar-heading border-bottom bg-light">Mapa UTLD</div>
+        <div class="list-group list-group-flush" id="detalles" class="row" style="width: 100%">
+            <div style= "margin: 3px;" id="imagen" class="col-2" style="max-width: 100px; max-height: 100px; height: auto"></div>
+            <div style= "margin: 5px;" id="nombre" class="col-10"></div><div style= "margin: 1px;" id="nombre" class="col-10"></div>
+            <button id="logOut" type="button" class="btn btn-outline-danger btn-round" style="margin: 20px;padding:0;width: 50%px; display: none" >Logout</button>
+        </div>
+    </div>
+    <!-- Page content wrapper-->
+    <div id="page-content-wrapper">
+        <!-- Top navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <div class="container-fluid">
+                <button style= "margin: 10px;" class="btn btn-secondary" id="sidebarToggle" >Ocultar menú</button>
+                <input style= "margin: 10px;" type="text" id="name" placeholder=" Nombre" >
+                <input style= "margin: 10px;" type="text" id="description" placeholder=" Descripción" >
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                        <li style= "margin: 5px;" class="nav-item"><input type="button" class="btn btn-dark" data-toggle="modal" data-target="#loginModal" value="Iniciar Sesión"></li>
+                    </ul>
+                </div>
+            </div>
+
+        </nav>
+
+
+        <!-- Page content-->
+        <div id="map">
+            <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-app.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
+            <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
+
+        </div>
+
+    </div>
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+
+
+<script
+        src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap&v=weekly"
+        async
+></script>
+
+</div>
+
+
+<!-- Modal Login -->
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header border-bottom-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-title text-center">
+                </div>
+                <div class="d-flex flex-column text-center">
+
+                    <form id="InisiarSesion">
+                        <h4>Login</h4>
+                        <br>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email1"placeholder="E-mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password1" placeholder="Password">
+                        </div>
+                        <button value="LogIn" type="button" class="btn btn-dark btn-block btn-round">Login</button>
+                    </form>
+                    <br>
+
+                    <form id="Crearcuenta" style="display: none">
+                        <h4>New Here? Create New Account</h4>
+                        <br>
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email1"placeholder="E-mail">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password1" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="passwordconfirm" placeholder="Confirm Password">
+                        </div>
+                        <button value="LogIn" type="button" class="btn btn-dark btn-block btn-round">Create Account</button>
+
+                    </form>
+
+
+                    <div class="text-center text-muted delimiter">Also Login With</div>
+                    <div class="d-flex justify-content-center social-buttons">
+                        <button id="logIn" type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Google">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button id="logInFace" type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Facebook">
+                            <i class="fab fa-facebook"></i>
+                        </button>
+                        <button id="logInTwitt" type="button" class="btn btn-secondary btn-round" data-toggle="tooltip" data-placement="top" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        </di>
+                    </div>
+                </div>
+                <div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center" >
+                <button class="btn btn-secondary btn-round " id="Crearcuenta2">Create Account</button>
+                <button style="display: none" class="btn btn-outline-secondary btn-round " id="Crearcuenta3">Already Have An Account</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL -->
+<!-- jQuery -->
+<script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
+<!-- Popper JS -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+<!-- Bootstrap JS -->
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+
+<script>
+    $(document).ready(function() {
+        $('#loginModal').modal('show')
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })});
+
+
+    $( "#Crearcuenta2" ).click(function() {
+        console.log('El click funciererereona');
+        $('#Crearcuenta').show();
+        $('#InisiarSesion').hide();
+        $('#Crearcuenta2').hide();
+        $('#Crearcuenta3').show();
+    });
+
+    $( "#Crearcuenta3" ).click(function() {
+        console.log('El click funciererereona');
+        $('#Crearcuenta3').hide();
+        $('#Crearcuenta').hide();
+        $('#InisiarSesion').show();
+        $('#Crearcuenta2').show()
+
+    });
+
+
+</script>
+
+
+<script src="./index.js"></script>
+
+</html>
